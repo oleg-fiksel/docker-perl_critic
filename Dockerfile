@@ -2,8 +2,7 @@ FROM perl:latest
 
 MAINTAINER Oleg Fiksel
 
-COPY cpanfile cpanfile
-RUN cpanm --installdeps .
-COPY critic_html /var/lib/critic_html
-RUN ln -s /var/lib/critic_html/critichtml /usr/bin/critichtml
+COPY critic_html /opt/critic_html
+RUN cpanm --installdeps /opt/critic_html && ln -s /opt/critic_html/critichtml /usr/bin/critichtml && ln -s -f /usr/local/bin/perl /usr/bin/perl && rm -rf ~/.cpanm
+
 WORKDIR /tmp/workspace
