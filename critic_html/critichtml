@@ -5,6 +5,7 @@ use warnings;
 
 use Perl::Critic;
 use Perl::Critic::Utils;
+use Readonly;
 
 use Template;
 use Cwd qw(abs_path cwd);
@@ -12,7 +13,7 @@ use File::Basename;
 use File::Find;
 use English qw(-no_match_vars);
 
-use constant SKIP_GOOD => 0; # Skip files with no violations?
+Readonly::Scalar my $SKIP_GOOD => 0; # Skip files with no violations?
 
 use autodie;
 
@@ -44,7 +45,7 @@ foreach my $file (@files) {
 
     my @violations = $critic->critique($file);
     $retcode++ if @violations > 0;
-    next if (!@violations && SKIP_GOOD);
+    next if (!@violations && $SKIP_GOOD);
 
     push @summary, { 'filename' => $file,
                      'link'     => "src/$file_safe.html",
