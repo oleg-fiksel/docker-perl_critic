@@ -22,4 +22,4 @@ perl_critic_text:
   image: olegfiksel/perl_critic:latest
   script:
     - cd critic_html
-    - critictest critichtml critictext
+    - critictext critichtml critictext
