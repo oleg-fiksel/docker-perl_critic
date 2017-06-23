@@ -9,7 +9,7 @@ perl_critic_html:
   image: olegfiksel/perl_critic:latest
   script:
     - cd critic_html
-    - critichtml critichtml critictest
+    - critichtml critichtml critictext
     - cd ../
     - mv critic_html/critic_html perl-critic-html
   artifacts:
@@ -22,4 +22,4 @@ perl_critic_text:
   image: olegfiksel/perl_critic:latest
   script:
     - cd critic_html
-    - critictest critichtml critictest
+    - critictest critichtml critictext
