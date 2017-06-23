@@ -68,12 +68,7 @@ foreach my $file (@files) {
 
     write_html("$critic_src_dir/$file_safe.html", 'codefile', { 'title' => "Critic Analysis of $file",
                                                                 'lines' => \@violations_by_line } );
-	{
-		my $header = <<EOF;
-----------==\[$file\]==------------
-EOF
-		push @perlcritic_text_output, $header.`perlcritic \"$file\"`.$header.$/;
-	}
+
 }
 
 write_html("$critic_dir/index.html", 'index', { 'title' => 'Perl::Critic::HTML Summary',
@@ -83,9 +78,7 @@ write_html("$critic_dir/index.html", 'index', { 'title' => 'Perl::Critic::HTML S
 	find(\&found, $critic_dir);
 }
 
-print(join('', @perlcritic_text_output),$/);
-
-exit $retcode;
+exit 0;
 
 sub found{
 	chown $uid, $gid, $File::Find::name;

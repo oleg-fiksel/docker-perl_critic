@@ -1,0 +1,25 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use Perl::Critic;
+
+my @files = @ARGV;
+my @perlcritic_text_output;
+my $retcode = 0;
+
+foreach my $file (@files) {
+    # Create a new Critic for per file statistics.
+    my $critic = Perl::Critic->new();
+    my @violations = $critic->critique($file);
+    $retcode++ if @violations > 0;
+	{
+		my $header = <<EOF;
+----------==\[$file\]==------------
+EOF
+		push @perlcritic_text_output, $header.`perlcritic \"$file\"`.$header.$/;
+	}
+}
+print(join('', @perlcritic_text_output),$/);
+exit $retcode;
