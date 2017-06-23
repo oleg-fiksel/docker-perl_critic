@@ -9,6 +9,7 @@ use Perl::Critic::Utils;
 use Template;
 use Cwd qw(abs_path cwd);
 use File::Basename;
+use File::Find;
 use English qw(-no_match_vars);
 
 use constant SKIP_GOOD => 0; # Skip files with no violations?
@@ -28,6 +29,8 @@ mkdir $critic_src_dir;
 
 # Analyse all perl files below the current directory.
 my @files = @ARGV;
+my (undef, undef, undef, undef, $uid, $gid ) = stat($files[0]);
+my @perlcritic_text_output;
 
 my @summary = (); # Store statistics on each file processed.
 my $retcode = 0;
@@ -65,11 +68,29 @@ foreach my $file (@files) {
 
     write_html("$critic_src_dir/$file_safe.html", 'codefile', { 'title' => "Critic Analysis of $file",
                                                                 'lines' => \@violations_by_line } );
+	{
+		my $header = <<EOF;
+----------==\[$file\]==------------
+EOF
+		push @perlcritic_text_output, $header.`perlcritic \"$file\"`.$header.$/;
+	}
 }
 
 write_html("$critic_dir/index.html", 'index', { 'title' => 'Perl::Critic::HTML Summary',
                                                 'files' => \@summary });
+# recursive chown created files
+{
+	find(\&found, $critic_dir);
+}
+
+print(join('', @perlcritic_text_output),$/);
+
 exit $retcode;
+
+sub found{
+	chown $uid, $gid, $File::Find::name;
+	return;
+}
 
 sub write_html {
     my ($filename, $template, $data) = @_;
