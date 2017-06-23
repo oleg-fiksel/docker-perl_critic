@@ -1,0 +1,18 @@
+variables:
+  DOCKER_DRIVER: overlay
+
+stages:
+- test
+
+perl_critic:
+  stage: test
+  image: olegfiksel/perl_critic:latest
+  script:
+    - cd critic_html
+    - critichtml critic_html/critichtml
+    - cd ../
+    - mv critic_html/critic_html perl-critic-html
+  artifacts:
+    expire_in: 1 week
+    paths:
+    - perl-critic-html
