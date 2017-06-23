@@ -1,5 +1,6 @@
 variables:
   DOCKER_DRIVER: overlay
+  FILES_TO_CRITIC: critichtml critictest
 
 stages:
 - test
@@ -9,7 +10,7 @@ perl_critic_html:
   image: olegfiksel/perl_critic:latest
   script:
     - cd critic_html
-    - critichtml critichtml
+    - critichtml $FILES_TO_CRITIC
     - cd ../
     - mv critic_html/critic_html perl-critic-html
   artifacts:
@@ -22,4 +23,4 @@ perl_critic_text:
   image: olegfiksel/perl_critic:latest
   script:
     - cd critic_html
-    - critictest critichtml critictest
+    - critictest $FILES_TO_CRITIC
