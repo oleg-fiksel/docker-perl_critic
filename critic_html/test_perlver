@@ -2,6 +2,8 @@
 use warnings;
 use strict;
 
+require v5.6.0;
+
 my @files = @ARGV;
 
 my $perlvar_check_opts = 'perlver --verbose --explain';
