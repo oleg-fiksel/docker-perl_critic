@@ -1,0 +1,22 @@
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my @files = @ARGV;
+
+my $perlvar_check_opts = 'perlver --verbose --explain';
+my $perlvar_blame_opts = 'perlver --verbose --blame';
+my $exitcode = 0;
+
+foreach my $file (@files){
+	my $cmd = $perlvar_check_opts." \"$file\"";
+	my $output_check = join "", `$cmd`;
+	print $output_check;
+	if($output_check =~ /ERROR/i){
+		$exitcode++;
+		my $cmd = $perlvar_blame_opts." \"$file\"";
+		print `$cmd`;
+	}	
+}
+
+exit $exitcode;
