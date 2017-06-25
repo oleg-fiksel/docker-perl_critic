@@ -1,6 +1,6 @@
 # Perl::Critic docker container
 
-# Run
+# Run manually
 
 ## Run Perl::Critic and output HTML
 
@@ -31,6 +31,10 @@ Exit codes:
 ```
 docker run -v $PWD:/tmp/workspace olegfiksel/perl_critic test_perlver my_script.pl
 ```
+
+# Run using GitLab-CI
+
+See [.gitlab-ci.yml](/.gitlab-ci.yml) in this repo.
 
 # Thanks
 
