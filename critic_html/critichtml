@@ -3,6 +3,8 @@
 use strict;
 use warnings;
 
+require v5.6.0;
+
 use Perl::Critic;
 use Perl::Critic::Utils;
 use Readonly;
