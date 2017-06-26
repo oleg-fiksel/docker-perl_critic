@@ -4,7 +4,7 @@ variables:
 stages:
 - test
 
-perl_critic_html:
+perl_critic:
   stage: test
   image: olegfiksel/perl_critic:latest
   script:
@@ -12,17 +12,13 @@ perl_critic_html:
     - critichtml test_perlver critichtml critictext
     - cd ../
     - mv critic_html/critic_html perl-critic-html
+    - cd critic_html
+    - critictext test_perlver critichtml critictext
   artifacts:
+    when: on_failure
     expire_in: 1 week
     paths:
     - perl-critic-html
-
-perl_critic_text:
-  stage: test
-  image: olegfiksel/perl_critic:latest
-  script:
-    - cd critic_html
-    - critictext test_perlver critichtml critictext
 
 perl_test_perlver:
   stage: test
